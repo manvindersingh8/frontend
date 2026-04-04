@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { API } from "../services/axios";
+import { fetchApplicants } from "../services/api/fetchApplications.js";
 
 const RecruiterDashboardPage = () => {
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
-
+  const [applicants, setApplicants] = useState([]);
+  console.log(selectedJob);
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -28,7 +30,8 @@ const RecruiterDashboardPage = () => {
           return (
             <li
               onClick={() => {
-                selectedJob(ele._id);
+                setSelectedJob(ele);
+                fetchApplicants(ele._id);
               }}
               key={ele._id}
             >
@@ -37,6 +40,12 @@ const RecruiterDashboardPage = () => {
           );
         })}
       </ul>
+      {selectedJob && (
+        <>
+          <button onClick={() => setSelectedJob(null)}>back</button>
+          <h2>{selectedJob.title}</h2>
+        </>
+      )}
     </>
   );
 };

@@ -1,52 +1,63 @@
 import { useEffect, useState } from "react";
-import { API } from "../services/axios";
-import { fetchApplicants } from "../services/api/fetchApplications.js";
+import { fetchApplicants } from "../store/applicantsSlice.js";
+import { fetchJobs } from "../store/jobSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import Dropdown from "../components/dropdown.jsx";
+import { deleteJob } from "../services/api/deleteJob.js";
 
 const RecruiterDashboardPage = () => {
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [applicants, setApplicants] = useState([]);
-  console.log(selectedJob);
+
+  const dispatch = useDispatch();
+  const { applicants } = useSelector((state) => state.applicants);
+
+  // fetch recruiter's posted jobs on page load
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const result = await API.get("/jobs/my");
-        console.log(result);
-        setJobs(result.data.data);
-        console.log(jobs);
-      } catch (error) {
-        console.log(error);
-      }
+    const loadJobs = async () => {
+      const result = await fetchJobs();
+      setJobs(result);
     };
-    fetchJobs();
+    loadJobs();
   }, []);
 
+  const handleDelete = async (jobId) => {
+    const confirmed = window.confirm("Are you sure?");
+    if (!confirmed) return;
+    const success = await deleteJob(jobId);
+    if (success) setJobs((prev) => prev.filter((job) => job._id !== jobId));
+  };
   return (
     <>
       <h1>Recruiter dashboard</h1>
       <h2>Listings</h2>
+
+      {/* job list */}
       <ul>
-        {jobs.map((ele) => {
-          return (
-            <li
-              onClick={() => {
-                setSelectedJob(ele);
-                fetchApplicants(ele._id);
-              }}
-              key={ele._id}
-            >
-              {ele.title}
-            </li>
-          );
-        })}
+        {jobs.map((ele) => (
+          <li
+            onClick={() => {
+              setSelectedJob(ele);
+              dispatch(fetchApplicants(ele._id));
+            }}
+            key={ele._id}
+          >
+            {ele.title}
+            <button onClick={() => handleDelete(ele._id)}>Delete</button>
+          </li>
+        ))}
       </ul>
+
+      {/* applicants view */}
       {selectedJob && (
         <>
           <button onClick={() => setSelectedJob(null)}>back</button>
           <h2>{selectedJob.title}</h2>
+          <Dropdown jobId={selectedJob._id} />
         </>
       )}
     </>
   );
 };
+
 export default RecruiterDashboardPage;

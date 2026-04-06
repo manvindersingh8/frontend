@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { jobPostingSchema } from "../schema/jobPostingSchema";
+import { jobPostingSchema } from "../schema/jobPostingSchema.js";
 import { API } from "../services/axios.js";
 const CreateJobPage = () => {
   const {

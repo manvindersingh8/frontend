@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../schema/authSchema";
+import { loginSchema } from "../schema/authSchema.js";
 
 import { useLogin } from "../hooks/useLogin.js";
 

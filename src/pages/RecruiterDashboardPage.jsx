@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchApplicants } from "../store/applicantsSlice.js";
 import { fetchJobs } from "../store/jobSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import Dropdown from "../components/dropdown.jsx";
-import { deleteJob } from "../services/api/deleteJob.js";
+import Dropdown from "../components/ApplicantList.jsx";
+import { deleteJob } from "../services/api/jobApi.js";
 
 const RecruiterDashboardPage = () => {
   const [jobs, setJobs] = useState([]);

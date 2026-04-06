@@ -9,6 +9,7 @@ export const fetchJobs = createAsyncThunk(
         ? `/jobs?search=${search}&page=${page}&limit=20`
         : `/jobs?page=${page}&limit=20`;
       const result = await API.get(url);
+      console.log(result);
       return result.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -35,6 +36,7 @@ const jobSlice = createSlice({
         ((state.loading = true), (state.errors = null));
       })
       .addCase(fetchJobs.fulfilled, (state, action) => {
+        console.log(state.payload);
         state.loading = false;
         state.jobs = action.payload.jobs;
         state.currentPage = action.payload.currentPage;

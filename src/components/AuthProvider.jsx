@@ -14,16 +14,18 @@ const AuthProvider = ({ children }) => {
 
         dispatch(setUser({ user: result.data.data }));
       } catch (error) {
-        console.log(error);
+        console.log("User not authenticated", error);
       } finally {
         setLoading(false);
       }
     };
+
     rehydrate();
-  }, []);
+  }, [dispatch]);
 
   if (loading) return <h1>Loading...</h1>;
 
   return children;
 };
+
 export default AuthProvider;

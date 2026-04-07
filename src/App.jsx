@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import MyApplications from "./pages/myApplicationsPage";
 import RecruiterRoute from "./components/RecruiterRoute";
 import UserRoute from "./components/UserRoute";
+import TermsAndConditions from "./components/TermsAndConditions";
 const App = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
@@ -30,6 +31,7 @@ const App = () => {
         {/* Public */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/termsAndConditions" element={<TermsAndConditions />} />
 
         {/* Protected (login required) */}
         <Route element={<ProtectedRoute />}>

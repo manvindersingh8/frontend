@@ -12,6 +12,7 @@ export const useLogin = () => {
     try {
       const result = await API.post("/auth/login", data);
       dispatch(setUser(result.data.data));
+
       navigate("/jobs");
     } catch (error) {
       console.log(error);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchApplicants } from "../store/applicantsSlice.js";
-import { fetchJobs } from "../store/jobSlice.js";
+import { fetchPostedJobs } from "../services/api/jobApi.js";
 import { useDispatch, useSelector } from "react-redux";
-import Dropdown from "../components/ApplicantList.jsx";
+import ApplicantList from "../components/ApplicantList.jsx";
 import { deleteJob } from "../services/api/jobApi.js";
 
 const RecruiterDashboardPage = () => {
@@ -15,7 +15,7 @@ const RecruiterDashboardPage = () => {
   // fetch recruiter's posted jobs on page load
   useEffect(() => {
     const loadJobs = async () => {
-      const result = await fetchJobs();
+      const result = await fetchPostedJobs();
       setJobs(result);
     };
     loadJobs();
@@ -34,16 +34,23 @@ const RecruiterDashboardPage = () => {
 
       {/* job list */}
       <ul>
-        {jobs.map((ele) => (
+        {jobs.map((job) => (
           <li
             onClick={() => {
-              setSelectedJob(ele);
-              dispatch(fetchApplicants(ele._id));
+              setSelectedJob(job);
+              dispatch(fetchApplicants(job._id));
             }}
-            key={ele._id}
+            key={job._id}
           >
-            {ele.title}
-            <button onClick={() => handleDelete(ele._id)}>Delete</button>
+            {job.title}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(job._id);
+              }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -53,7 +60,7 @@ const RecruiterDashboardPage = () => {
         <>
           <button onClick={() => setSelectedJob(null)}>back</button>
           <h2>{selectedJob.title}</h2>
-          <Dropdown jobId={selectedJob._id} />
+          <ApplicantList jobId={selectedJob._id} />
         </>
       )}
     </>

@@ -12,6 +12,8 @@ import AuthPage from "./pages/authPage";
 import RecruiterDashboardPage from "./pages/RecruiterDashboardPage";
 import Navbar from "./components/Navbar";
 import MyApplications from "./pages/myApplicationsPage";
+import RecruiterRoute from "./components/RecruiterRoute";
+import UserRoute from "./components/UserRoute";
 const App = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
@@ -29,13 +31,22 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Protected */}
+        {/* Protected (login required) */}
         <Route element={<ProtectedRoute />}>
+          {/* Common */}
           <Route path="/jobs" element={<JobPage />} />
-          <Route path="/jobs/create-job" element={<CreateJobPage />} />
           <Route path="/jobs/:id" element={<JobDetailPage />} />
-          <Route path="/dashboard" element={<RecruiterDashboardPage />} />
-          <Route path="/myApplications" element={<MyApplications />} />
+
+          {/* Recruiter Only */}
+          <Route element={<RecruiterRoute />}>
+            <Route path="/jobs/create-job" element={<CreateJobPage />} />
+            <Route path="/dashboard" element={<RecruiterDashboardPage />} />
+          </Route>
+
+          {/* Jobseeker Only */}
+          <Route element={<UserRoute />}>
+            <Route path="/myApplications" element={<MyApplications />} />
+          </Route>
         </Route>
       </Routes>
     </>

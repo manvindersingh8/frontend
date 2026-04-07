@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../services/axios.js";
 import { useSelector } from "react-redux";
+import { ROLES } from "../constants/constants.js";
 
 const JobDetailPage = () => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const JobDetailPage = () => {
         accept=".pdf"
         onChange={(e) => setFile(e.target.files[0])}
       />
-      {user?.role === "jobseeker" && (
+      {user?.role === ROLES.JOBSEEKER && (
         <button onClick={handleApply} disabled={isApplied}>
           {isApplied ? "Applied" : "Apply"}
         </button>

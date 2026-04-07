@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/authSlice";
+import { setUser, logout } from "../store/authSlice";
 import { API } from "../services/axios";
 
 const AuthProvider = ({ children }) => {
@@ -11,10 +11,13 @@ const AuthProvider = ({ children }) => {
     const rehydrate = async () => {
       try {
         const result = await API.get("/users/me");
+        const userData = result.data.data;
 
-        dispatch(setUser({ user: result.data.data }));
+        dispatch(setUser({ user: userData, role: userData.role }));
       } catch (error) {
-        console.log("User not authenticated", error);
+        console.error("User not authenticated", error);
+
+        dispatch(logout());
       } finally {
         setLoading(false);
       }

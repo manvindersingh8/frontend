@@ -1,5 +1,4 @@
 import { API } from "../axios";
-
 export const fetchApplicants = async (jobId) => {
   try {
     const result = await API.get(`/applications?jobId=${jobId}`);
@@ -12,6 +11,7 @@ export const fetchApplicants = async (jobId) => {
 export const fetchMyApplications = async () => {
   try {
     const result = await API.get(`/applications/my`);
+    console.log(result.data.data);
     return result.data.data;
   } catch (error) {
     console.log(error);

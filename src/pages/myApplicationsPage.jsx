@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchApplicants } from "../store/applicantsSlice";
+import { fetchMyApplications } from "../services/api/applicationApi";
 
 const MyApplications = () => {
   const [myApplications, setMyApplications] = useState([]);

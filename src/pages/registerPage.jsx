@@ -13,7 +13,7 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(registerSchema) });
   const navigate = useNavigate();
-  const apiCall = async (data) => {
+  const handleRegister = async (data) => {
     try {
       await API.post(`/auth/register`, data);
       navigate("/login");
@@ -23,7 +23,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(apiCall)}>
+    <form onSubmit={handleSubmit(handleRegister)}>
       <input {...register("username")} placeholder="username" />
       {errors.username && <p>{errors.username.message}</p>}
       <input {...register("fullname")} placeholder="fullname" />

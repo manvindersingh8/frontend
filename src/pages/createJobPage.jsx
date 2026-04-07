@@ -7,14 +7,16 @@ const CreateJobPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(jobPostingSchema),
   });
-  const postJob = async (data) => {
+  const handlePostJob = async (data) => {
     try {
-      await API.post(`jobs`, data);
+      await API.post(`/jobs`, data);
       alert("Job posted successfully");
+      reset();
     } catch (error) {
       console.log(error.response?.data?.message);
     }
@@ -22,7 +24,7 @@ const CreateJobPage = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(postJob)}>
+      <form onSubmit={handleSubmit(handlePostJob)}>
         <input {...register("title")} placeholder="title of job" />
         {errors.title && <p>{errors.title.message}</p>}
         <textarea

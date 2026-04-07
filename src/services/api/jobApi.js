@@ -10,7 +10,7 @@ export const deleteJob = async (jobId) => {
   }
 };
 
-export const fetchJobs = async () => {
+export const fetchPostedJobs = async () => {
   try {
     const result = await API.get("/jobs/my");
     return result.data.data;

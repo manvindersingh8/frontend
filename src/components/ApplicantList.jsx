@@ -1,7 +1,8 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateApplicantStatus } from "../store/applicantsSlice";
 
-const Dropdown = ({ jobId }) => {
+const ApplicantList = ({ jobId }) => {
   const dispatch = useDispatch();
   const { applicants } = useSelector((state) => state.applicants);
   if (applicants.length === 0) return <h1>No applicaitons yet</h1>;
@@ -9,8 +10,8 @@ const Dropdown = ({ jobId }) => {
     <>
       {applicants.map((ele) => {
         return (
-          <>
-            <li key={ele._id}>
+          <React.Fragment key={ele._id}>
+            <li>
               {ele.applicantId.username} — {ele.applicantId.email}
               <select
                 value={ele.status}
@@ -37,11 +38,11 @@ const Dropdown = ({ jobId }) => {
                 <option value="hired">hired</option>
               </select>
             </li>
-          </>
+          </React.Fragment>
         );
       })}
     </>
   );
 };
 
-export default Dropdown;
+export default ApplicantList;

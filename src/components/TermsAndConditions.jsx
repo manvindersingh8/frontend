@@ -1,4 +1,9 @@
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
+
 const TermsAndConditions = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-3xl mx-auto p-6 text-sm text-gray-700 space-y-4">
       <h1 className="text-2xl font-bold">Terms of Service</h1>
@@ -62,6 +67,12 @@ const TermsAndConditions = () => {
       <div>
         <h2 className="font-semibold">7. Contact</h2>
         <p>support@example.com</p>
+      </div>
+
+      <div className="flex justify-center mt-6">
+        <Button variant="default" onClick={() => navigate(-1)}>
+          Back
+        </Button>
       </div>
     </div>
   );

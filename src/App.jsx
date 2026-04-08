@@ -15,14 +15,15 @@ import MyApplications from "./pages/myApplicationsPage";
 import RecruiterRoute from "./components/RecruiterRoute";
 import UserRoute from "./components/UserRoute";
 import TermsAndConditions from "./components/TermsAndConditions";
+
 const App = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <>
       <Navbar />
+
       <Routes>
-        {/* Root */}
         <Route
           path="/"
           element={!isAuthenticated ? <AuthPage /> : <Navigate to="/jobs" />}
@@ -33,19 +34,16 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/termsAndConditions" element={<TermsAndConditions />} />
 
-        {/* Protected (login required) */}
+        {/* Protected */}
         <Route element={<ProtectedRoute />}>
-          {/* Common */}
           <Route path="/jobs" element={<JobPage />} />
           <Route path="/jobs/:id" element={<JobDetailPage />} />
 
-          {/* Recruiter Only */}
           <Route element={<RecruiterRoute />}>
             <Route path="/jobs/create-job" element={<CreateJobPage />} />
             <Route path="/dashboard" element={<RecruiterDashboardPage />} />
           </Route>
 
-          {/* Jobseeker Only */}
           <Route element={<UserRoute />}>
             <Route path="/myApplications" element={<MyApplications />} />
           </Route>

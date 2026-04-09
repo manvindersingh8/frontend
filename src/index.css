@@ -60,3 +60,16 @@
   shadow-[0_25px_60px_rgba(0,0,0,0.10)]
   transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02];
 }
+
+@keyframes bar {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-bar {
+  animation: bar 0.9s ease-in-out infinite;
+}

@@ -15,12 +15,16 @@ import MyApplications from "./pages/myApplicationsPage";
 import RecruiterRoute from "./components/RecruiterRoute";
 import UserRoute from "./components/UserRoute";
 import TermsAndConditions from "./components/TermsAndConditions";
+import { Toaster } from "sonner"; // 👈 ADD THIS
 
 const App = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <>
+      {/* ✅ ADD TOASTER HERE */}
+      <Toaster richColors position="top-center" />
+
       <Navbar />
 
       <Routes>

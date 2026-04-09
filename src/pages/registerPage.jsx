@@ -9,7 +9,8 @@ import { Card } from "@/components/ui/card.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import { errorStyle, inputStyle, pageWrapper } from "../styles/class.js";
 import { motion } from "framer-motion";
-
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import Illustration from "@/assets/register.svg";
 
 import {
@@ -32,10 +33,20 @@ const RegisterPage = () => {
 
   const handleRegister = async (data) => {
     try {
-      await API.post(`/auth/register`, data);
-      navigate("/login");
+      const res = await API.post(`/auth/register`, data);
+
+      // ✅ success notification
+      toast.success("Account created successfully 🎉");
+
+      // ⏳ small delay so user sees it
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      // ❌ error notification
+      toast.error(error?.response?.data?.message || "Registration failed");
     }
   };
 
@@ -160,6 +171,12 @@ const RegisterPage = () => {
                 Register
               </Button>
             </form>
+            <h4>
+              Already have an account?{" "}
+              <Button variant="default">
+                <Link to="/login">Login</Link>
+              </Button>
+            </h4>
           </Card>
         </motion.div>
       </div>

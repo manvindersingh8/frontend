@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Illustration from "@/assets/illustration.svg";
 import { primaryBtn, pageWrapper } from "@/styles/class";
-
 const AuthPage = () => {
   return (
     <div className={pageWrapper}>

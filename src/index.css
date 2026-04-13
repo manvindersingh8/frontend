@@ -73,3 +73,8 @@
 .animate-bar {
   animation: bar 0.9s ease-in-out infinite;
 }
+/* ShadCN Dialog Overlay Custom */
+[data-state="open"][data-radix-dialog-overlay] {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}

@@ -6,8 +6,8 @@ export const fetchJobs = createAsyncThunk(
   async ({ search, page }, thunkAPI) => {
     try {
       const url = search
-        ? `/jobs?search=${search}&page=${page}&limit=20`
-        : `/jobs?page=${page}&limit=20`;
+        ? `/jobs?search=${search}&page=${page}&limit=18`
+        : `/jobs?page=${page}&limit=18`;
       const result = await API.get(url);
 
       return result.data.data;

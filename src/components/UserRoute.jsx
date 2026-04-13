@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { ROLES } from "../constants/constants";
 
 const UserRoute = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, role } = useSelector((state) => state.auth);
 
-  if (!user || user.role !== "user") {
+  if (!user || role !== ROLES.JOBSEEKER) {
     return <Navigate to="/jobs" />;
   }
 

@@ -41,14 +41,33 @@ const JobCard = ({ job }) => {
       >
         <CardHeader>
           <CardTitle className="capitalize">{job.title}</CardTitle>
-          <CardDescription>{job.location}</CardDescription>
+          <CardDescription>
+            {job.company} • {job.location}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3">
-          <Badge variant="secondary">₹{job.salary}k</Badge>
+          {/* Salary */}
+          <Badge variant="secondary">
+            ₹{job.salary?.min}k - ₹{job.salary?.max}k
+          </Badge>
+
+          {/* Skills */}
+          <div className="flex flex-wrap gap-2">
+            {job.skills?.slice(0, 3).map((skill, i) => (
+              <Badge key={i} variant="outline">
+                {skill}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Short Description */}
           <p className="text-sm text-muted-foreground line-clamp-2">
-            {job.description}
+            {job.description || "No description provided"}
           </p>
+
+          {/* Hint */}
+          <p className="text-xs text-blue-500">View details →</p>
         </CardContent>
       </Card>
 
@@ -63,22 +82,37 @@ const JobCard = ({ job }) => {
           </DialogHeader>
 
           <div className="space-y-4 mt-2">
-            {/* Info Row */}
+            {/* Info */}
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">📍 {job.location}</span>
               <span className="bg-gray-100 px-2 py-1 rounded">
-                ₹{job.salary}k
+                ₹{job.salary?.min}k - ₹{job.salary?.max}k
               </span>
             </div>
 
-            {/* Divider */}
+            {/* Extra Info */}
+            <div className="flex gap-2 flex-wrap">
+              <Badge>{job.jobType}</Badge>
+              <Badge variant="secondary">{job.workMode}</Badge>
+              <Badge variant="outline">{job.experience}</Badge>
+            </div>
+
+            {/* Skills */}
+            <div className="flex flex-wrap gap-2">
+              {job.skills?.map((skill, i) => (
+                <Badge key={i} variant="outline">
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+
             <div className="border-t" />
 
-            {/* Description */}
+            {/* Full Description */}
             <div>
               <h3 className="text-sm font-medium mb-1">Job Description</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {job.description}
+                {job.description || "No description available"}
               </p>
             </div>
           </div>

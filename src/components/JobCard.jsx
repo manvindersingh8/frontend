@@ -49,8 +49,15 @@ const JobCard = ({ job }) => {
         <CardContent className="space-y-3">
           {/* Salary */}
           <Badge variant="secondary">
-            ₹{job.salary?.min}k - ₹{job.salary?.max}k
+            ₹{job.salary?.min ?? 0}k - ₹{job.salary?.max ?? 0}k
           </Badge>
+
+          {/* Quick Info (🔥 added experience here too) */}
+          <div className="flex gap-2 flex-wrap">
+            <Badge>{job.jobType}</Badge>
+            <Badge variant="secondary">{job.workMode}</Badge>
+            <Badge variant="outline">{job.experienceLevel || "N/A"}</Badge>
+          </div>
 
           {/* Skills */}
           <div className="flex flex-wrap gap-2">
@@ -86,7 +93,7 @@ const JobCard = ({ job }) => {
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">📍 {job.location}</span>
               <span className="bg-gray-100 px-2 py-1 rounded">
-                ₹{job.salary?.min}k - ₹{job.salary?.max}k
+                ₹{job.salary?.min ?? 0}k - ₹{job.salary?.max ?? 0}k
               </span>
             </div>
 
@@ -94,7 +101,7 @@ const JobCard = ({ job }) => {
             <div className="flex gap-2 flex-wrap">
               <Badge>{job.jobType}</Badge>
               <Badge variant="secondary">{job.workMode}</Badge>
-              <Badge variant="outline">{job.experience}</Badge>
+              <Badge variant="outline">{job.experienceLevel || "N/A"}</Badge>
             </div>
 
             {/* Skills */}

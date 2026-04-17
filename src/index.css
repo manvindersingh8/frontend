@@ -78,3 +78,19 @@
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(6px);
 }
+
+:root {
+  --popover: 0 0% 100%; /* solid white */
+  --popover-foreground: 222.2 84% 4.9%;
+}
+
+.dark {
+  --popover: 222 47% 11%; /* solid dark */
+  --popover-foreground: 210 40% 98%;
+}
+
+/* FIX: prevent blur affecting portals */
+[data-radix-popper-content-wrapper] {
+  isolation: isolate;
+  z-index: 9999 !important;
+}

@@ -9,20 +9,33 @@ import {
 } from "@/constants/constants.js";
 import { API } from "../services/axios.js";
 
-import { Card } from "@/components/ui/card.jsx";
-import { Button } from "@/components/ui/button.jsx";
-import { motion } from "framer-motion";
-
-import { errorStyle, inputStyle, pageWrapper } from "../styles/class.js";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CreateJobPage = () => {
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: zodResolver(jobPostingSchema),
+    defaultValues: {
+      experience: "",
+      jobType: "",
+      workMode: "",
+    },
   });
 
   const handlePostJob = async (data) => {
@@ -36,176 +49,173 @@ const CreateJobPage = () => {
   };
 
   return (
-    <div className={pageWrapper}>
-      {/* 🌊 Background Wave */}
-      <motion.div
-        initial={{ y: 200 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-x-0 bottom-0 z-0 pointer-events-none"
-      >
-        <svg
-          className="w-full h-[55vh]"
-          viewBox="0 0 1200 600"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,200 C300,100 900,500 1200,300 L1200,600 L0,600 Z"
-            className="fill-blue-500 opacity-90"
-          />
-        </svg>
-      </motion.div>
+    <div className="flex justify-center px-4 py-10">
+      <Card className="w-full max-w-4xl shadow-2xl">
+        <CardHeader>
+          <CardTitle className="text-center text-xl">Post a Job</CardTitle>
+          <p className="text-sm text-muted-foreground text-center">
+            Fill in the details
+          </p>
+        </CardHeader>
 
-      {/* FORM CARD */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-6">
-        <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-[600px]"
-        >
-          <Card className="glass-card p-6">
-            <h2 className="text-2xl font-semibold text-center mb-2">
-              Post a Job
-            </h2>
+        {/* 🔥 IMPORTANT FIX */}
+        <CardContent className="overflow-visible">
+          <form onSubmit={handleSubmit(handlePostJob)}>
+            <div className="grid md:grid-cols-2 gap-6 relative">
+              {/* LEFT SIDE */}
+              <div className="space-y-4">
+                {errors.title && (
+                  <p className="text-red-500 text-center">
+                    {errors.title.message}
+                  </p>
+                )}
+                <Input {...register("title")} placeholder="Job title" />
 
-            <p className="text-sm text-gray-500 text-center mb-6">
-              Fill in the details to create a new job listing
-            </p>
+                {errors.description && (
+                  <p className="text-red-500 text-center">
+                    {errors.description.message}
+                  </p>
+                )}
+                <Textarea
+                  {...register("description")}
+                  placeholder="Job description"
+                />
 
-            <form
-              onSubmit={handleSubmit(handlePostJob)}
-              className="flex flex-col gap-4"
-            >
-              {/* TITLE */}
-              {errors.title && (
-                <p className={errorStyle}>{errors.title.message}</p>
-              )}
-              <input
-                {...register("title")}
-                placeholder="Job title"
-                className={inputStyle}
-              />
+                <div className="flex gap-4">
+                  <div className="w-full">
+                    {errors.salary?.min && (
+                      <p className="text-red-500 text-center">
+                        {errors.salary.min.message}
+                      </p>
+                    )}
+                    <Input
+                      type="number"
+                      min={1}
+                      placeholder="Min Salary"
+                      {...register("salary.min", { valueAsNumber: true })}
+                    />
+                  </div>
 
-              {/* DESCRIPTION */}
-              {errors.description && (
-                <p className={errorStyle}>{errors.description.message}</p>
-              )}
-              <textarea
-                {...register("description")}
-                placeholder="Job description"
-                className={inputStyle + " h-28 resize-none"}
-              />
-
-              {/* SALARY */}
-              <div className="flex gap-3">
-                <div className="w-full">
-                  {errors.salary?.min && (
-                    <p className={errorStyle}>{errors.salary.min.message}</p>
-                  )}
-                  <input
-                    type="number"
-                    min={1}
-                    placeholder="Min Salary"
-                    {...register("salary.min", { valueAsNumber: true })}
-                    className={inputStyle}
-                  />
+                  <div className="w-full">
+                    {errors.salary?.max && (
+                      <p className="text-red-500 text-center">
+                        {errors.salary.max.message}
+                      </p>
+                    )}
+                    <Input
+                      type="number"
+                      min={1}
+                      placeholder="Max Salary"
+                      {...register("salary.max", { valueAsNumber: true })}
+                    />
+                  </div>
                 </div>
 
-                <div className="w-full">
-                  {errors.salary?.max && (
-                    <p className={errorStyle}>{errors.salary.max.message}</p>
-                  )}
-                  <input
-                    type="number"
-                    min={1}
-                    placeholder="Max Salary"
-                    {...register("salary.max", { valueAsNumber: true })}
-                    className={inputStyle}
-                  />
-                </div>
+                {errors.location && (
+                  <p className="text-red-500 text-center">
+                    {errors.location.message}
+                  </p>
+                )}
+                <Input {...register("location")} placeholder="Location" />
+
+                {errors.company && (
+                  <p className="text-red-500 text-center">
+                    {errors.company.message}
+                  </p>
+                )}
+                <Input {...register("company")} placeholder="Company name" />
               </div>
 
-              {/* LOCATION */}
-              {errors.location && (
-                <p className={errorStyle}>{errors.location.message}</p>
-              )}
-              <input
-                {...register("location")}
-                placeholder="Location"
-                className={inputStyle}
-              />
+              {/* RIGHT SIDE */}
+              <div className="space-y-4">
+                {/* EXPERIENCE */}
+                <Select
+                  value={watch("experience")}
+                  onValueChange={(val) => setValue("experience", val)}
+                >
+                  <SelectTrigger className="w-full justify-center text-center">
+                    <SelectValue placeholder="Select Experience" />
+                  </SelectTrigger>
 
-              {/* COMPANY */}
-              {errors.company && (
-                <p className={errorStyle}>{errors.company.message}</p>
-              )}
-              <input
-                {...register("company")}
-                placeholder="Company name"
-                className={inputStyle}
-              />
+                  {/* 🔥 FIXED */}
+                  <SelectContent
+                    position="popper"
+                    sideOffset={5}
+                    className="z-[9999] bg-white text-black border shadow-xl backdrop-blur-none"
+                  >
+                    {Object.values(EXPERIENCE_LEVELS).map((exp) => (
+                      <SelectItem key={exp} value={exp}>
+                        {exp}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              {/* EXPERIENCE */}
-              {errors.experience && (
-                <p className={errorStyle}>{errors.experience.message}</p>
-              )}
-              <select {...register("experience")} className={inputStyle}>
-                <option value="">Select Experience</option>
-                {Object.values(EXPERIENCE_LEVELS).map((exp) => (
-                  <option key={exp} value={exp}>
-                    {exp}
-                  </option>
-                ))}
-              </select>
+                {/* JOB TYPE */}
+                <Select
+                  value={watch("jobType")}
+                  onValueChange={(val) => setValue("jobType", val)}
+                >
+                  <SelectTrigger className="w-full justify-center text-center">
+                    <SelectValue placeholder="Select Job Type" />
+                  </SelectTrigger>
 
-              {/* JOB TYPE */}
-              {errors.jobtype && (
-                <p className={errorStyle}>{errors.jobtype.message}</p>
-              )}
-              <select {...register("jobtype")} className={inputStyle}>
-                <option value="">Select Job Type</option>
-                {Object.values(JOB_TYPES).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
+                  <SelectContent
+                    position="popper"
+                    sideOffset={5}
+                    className="z-[9999] bg-white text-black border shadow-xl backdrop-blur-none"
+                  >
+                    {Object.values(JOB_TYPES).map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              {/* WORK MODE */}
-              {errors.workMode && (
-                <p className={errorStyle}>{errors.workMode.message}</p>
-              )}
-              <select {...register("workMode")} className={inputStyle}>
-                <option value="">Select Work Mode</option>
-                {Object.values(WORK_MODES).map((mode) => (
-                  <option key={mode} value={mode}>
-                    {mode}
-                  </option>
-                ))}
-              </select>
+                {/* WORK MODE */}
+                <Select
+                  value={watch("workMode")}
+                  onValueChange={(val) => setValue("workMode", val)}
+                >
+                  <SelectTrigger className="w-full justify-center text-center">
+                    <SelectValue placeholder="Select Work Mode" />
+                  </SelectTrigger>
+                  <SelectContent
+                    position="popper"
+                    sideOffset={5}
+                    className="z-[9999] bg-white text-black border shadow-xl backdrop-blur-none"
+                  >
+                    {Object.values(WORK_MODES).map((mode) => (
+                      <SelectItem key={mode} value={mode}>
+                        {mode}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              {/* SKILLS */}
-              {errors.skills && (
-                <p className={errorStyle}>{errors.skills.message}</p>
-              )}
-              <input
-                {...register("skills")}
-                placeholder="Skills (comma separated)"
-                className={inputStyle}
-              />
+                {/* SKILLS */}
+                {errors.skills && (
+                  <p className="text-red-500 text-center">
+                    {errors.skills.message}
+                  </p>
+                )}
+                <Input
+                  {...register("skills")}
+                  placeholder="Skills (comma separated)"
+                />
+              </div>
+            </div>
 
-              {/* BUTTON */}
-              <Button
-                type="submit"
-                className="h-11 w-full text-base bg-blue-500 hover:bg-blue-600 text-white mt-4"
-              >
+            {/* BUTTON */}
+            <div className="flex justify-center pt-8">
+              <Button type="submit" className="w-[220px]">
                 Post Job
               </Button>
-            </form>
-          </Card>
-        </motion.div>
-      </div>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

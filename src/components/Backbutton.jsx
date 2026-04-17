@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import { ArrowLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const BackButton = ({ label = "Back", className = "" }) => {
+const BackButton = ({ className = "" }) => {
   const navigate = useNavigate();
 
   return (
     <Button
-      size="sm"
-      variant="secondary"
+      variant="default"
+      size="icon"
       onClick={() => navigate(-1)}
-      className={`text-[#4A6CF7] bg-white hover:bg-gray-100 ${className}`}
+      className={`rounded-full ${className}`}
     >
-      ← {label}
+      <ArrowLeftIcon />
     </Button>
   );
 };

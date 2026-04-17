@@ -3,11 +3,19 @@ import { API } from "../services/axios.js";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchjobs",
-  async ({ search, page }, thunkAPI) => {
+  async (
+    { search, page, location, jobType, experienceLevel, workMode },
+    thunkAPI,
+  ) => {
     try {
-      const url = search
-        ? `/jobs?search=${search}&page=${page}&limit=18`
-        : `/jobs?page=${page}&limit=18`;
+      let url = `/jobs?page=${page}&limit=18`;
+
+      if (search) url += `&search=${search}`;
+      if (location) url += `&location=${location}`;
+      if (jobType) url += `&jobType=${jobType}`;
+      if (experienceLevel) url += `&experienceLevel=${experienceLevel}`;
+      if (workMode) url += `&workMode=${workMode}`;
+
       const result = await API.get(url);
 
       return result.data.data;

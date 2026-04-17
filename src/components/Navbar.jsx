@@ -11,27 +11,28 @@ const Navbar = () => {
 
   if (!isAuthenticated) return null;
 
-  // ✅ Only show back button on these routes
   const backRoutes = ["/jobs/create-job", "/dashboard", "/myApplications"];
   const showBack = backRoutes.includes(location.pathname);
 
   return (
     <nav className="w-full bg-gradient-to-r from-[#4A6CF7] to-[#5A7CFA] text-white border-b sticky top-0 z-50 shadow-md">
       <div className="w-full px-4 py-3 flex items-center justify-between relative">
-        {/* LEFT: Back button (conditional) */}
-        <div className="w-[120px] flex items-center">
-          {showBack && <BackButton />}
+        {/* LEFT */}
+        <div className="flex items-center">
+          {showBack && <BackButton className="bg-white text-black" />}
         </div>
 
-        {/* CENTER: Always fixed */}
-        <h1 className="absolute left-40 text-xl font-semibold">JobPortal</h1>
+        {/* CENTER */}
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-xl font-semibold">
+          JobPortal
+        </h1>
 
-        {/* RIGHT: Logout */}
-        <div className="w-[120px] flex justify-end">
+        {/* RIGHT */}
+        <div className="flex justify-end">
           <Button
             size="sm"
             onClick={handleLogout}
-            className="bg-red-600 text-white hover:bg-red-800 ab"
+            className="bg-red-600 text-white hover:bg-red-800"
           >
             Logout
           </Button>

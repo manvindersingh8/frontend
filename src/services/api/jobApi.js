@@ -13,6 +13,7 @@ export const deleteJob = async (jobId) => {
 export const fetchPostedJobs = async () => {
   try {
     const result = await API.get("/jobs/my");
+    console.log(result);
     return result.data.data;
   } catch (error) {
     console.log(error);

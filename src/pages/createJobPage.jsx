@@ -8,6 +8,7 @@ import {
   EXPERIENCE_LEVELS,
 } from "@/constants/constants.js";
 import { API } from "../services/axios.js";
+import { toast } from "sonner";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,7 +33,7 @@ const CreateJobPage = () => {
   } = useForm({
     resolver: zodResolver(jobPostingSchema),
     defaultValues: {
-      experience: "",
+      experienceLevel: "",
       jobType: "",
       workMode: "",
     },
@@ -41,10 +42,10 @@ const CreateJobPage = () => {
   const handlePostJob = async (data) => {
     try {
       await API.post(`/jobs`, data);
-      alert("Job posted successfully 🚀");
+      toast.success("Job posted successfully 🚀");
       reset();
     } catch (error) {
-      console.log(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -130,8 +131,8 @@ const CreateJobPage = () => {
               <div className="space-y-4">
                 {/* EXPERIENCE */}
                 <Select
-                  value={watch("experience")}
-                  onValueChange={(val) => setValue("experience", val)}
+                  value={watch("experienceLevel")}
+                  onValueChange={(val) => setValue("experienceLevel", val)}
                 >
                   <SelectTrigger className="w-full justify-center text-center">
                     <SelectValue placeholder="Select Experience" />

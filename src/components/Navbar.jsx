@@ -11,8 +11,13 @@ const Navbar = () => {
 
   if (!isAuthenticated) return null;
 
-  const backRoutes = ["/jobs/create-job", "/dashboard", "/myApplications"];
-  const showBack = backRoutes.includes(location.pathname);
+  const isJobDetailPage = location.pathname.match(/^\/jobs\/[^/]+$/);
+
+  const showBack =
+    location.pathname === "/jobs/create-job" ||
+    location.pathname === "/dashboard" ||
+    location.pathname === "/myApplications" ||
+    isJobDetailPage;
 
   return (
     <nav className="w-full bg-gradient-to-r from-[#4A6CF7] to-[#5A7CFA] text-white border-b sticky top-0 z-50 shadow-md">

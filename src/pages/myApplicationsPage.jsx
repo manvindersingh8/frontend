@@ -64,10 +64,11 @@ const MyApplications = () => {
 
               <CardContent className="space-y-3">
                 {/* Location + Salary */}
-                <div className="flex justify-between text-sm">
-                  <span>📍 {app.jobId?.location}</span>
-                  <span>₹{app.jobId?.salary}k</span>
-                </div>
+                <span>
+                  {app.jobId?.salary
+                    ? `₹${app.jobId.salary.min} - ₹${app.jobId.salary.max}`
+                    : "N/A"}
+                </span>
 
                 {/* Status Badge */}
                 <Badge variant={getStatusVariant(app.status)}>

@@ -22,9 +22,9 @@ export const jobPostingSchema = z.object({
 
   company: z.string().trim().min(2, "Company name is required"),
 
-  jobtype: z.enum(Object.values(JOB_TYPES)),
+  jobType: z.enum(Object.values(JOB_TYPES)),
 
-  experience: z.enum(Object.values(EXPERIENCE_LEVELS)),
+  experienceLevel: z.enum(Object.values(EXPERIENCE_LEVELS)),
 
   salary: z
     .object({
